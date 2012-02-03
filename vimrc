@@ -1,10 +1,3 @@
-" =======================================
-" Who: Jeremy Mack (@mutewinter)
-" What: .vimrc of champions
-" Version: 1.0 (this may never change because who versions dot files,
-" honestly)
-" =======================================
-
 " ----------------------------------------
 " Vundle
 " ----------------------------------------
@@ -23,53 +16,37 @@ Bundle 'gmarik/vundle'
 " ---------------
 
 " Navigation
-Bundle 'ZoomWin'
 Bundle 'wincent/Command-T'
 " This fork is required due to remapping ; to :
 Bundle 'christoomey/vim-space'
 Bundle 'Lokaltog/vim-easymotion'
-Bundle 'mutewinter/LustyJuggler'
 Bundle 'kien/ctrlp.vim'
 " UI Additions
 Bundle 'mutewinter/vim-indent-guides'
 Bundle 'Lokaltog/vim-powerline'
-Bundle 'scrooloose/nerdtree'
 Bundle 'Rykka/ColorV'
 Bundle 'nanotech/jellybeans.vim'
 Bundle 'tomtom/quickfixsigns_vim'
 " Commands
-Bundle 'scrooloose/nerdcommenter'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-speeddating'
 Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-commentary'
 Bundle 'godlygeek/tabular'
 Bundle 'mileszs/ack.vim'
 Bundle 'gmarik/sudo-gui.vim'
-Bundle 'milkypostman/vim-togglelist'
 " Automatic Helpers
-Bundle 'IndexedSearch'
-Bundle 'xolox/vim-session'
 Bundle 'Raimondi/delimitMate'
 Bundle 'scrooloose/syntastic'
 Bundle 'ervandew/supertab'
 Bundle 'gregsexton/MatchTag'
 Bundle 'Shougo/neocomplcache'
 " Language Additions
-"   Ruby
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'tpope/vim-haml'
-Bundle 'tpope/vim-rails'
-Bundle 'tpope/vim-rake'
 "   JavaScript
 Bundle 'pangloss/vim-javascript'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'leshill/vim-json'
 Bundle 'itspriddle/vim-jquery'
 "   Misc
-Bundle 'msanders/cocoa.vim'
-Bundle 'mutewinter/taskpaper.vim'
 Bundle 'mutewinter/nginx.vim'
-Bundle 'timcharper/textile.vim'
 " MatchIt
 Bundle 'matchit.zip'
 Bundle 'kana/vim-textobj-user'
@@ -109,9 +86,11 @@ elseif has('gui_macvim')
   " From: https://github.com/Lokaltog/vim-powerline/wiki/Patched-fonts
   set guifont=Menlo\ for\ Powerline:h12
 
-  " Hide Toolbar in MacVim
+  " Hide toolbar and scrollbar in MacVim
   if has("gui_running")
     set guioptions=egmrt
+    set guioptions+=LlRrb
+    set guioptions-=LlRrb
   endif
 
   " Use option (alt) as meta key.
@@ -154,7 +133,6 @@ set wildmenu           " Turn on WiLd menu
 set hidden             " Change buffer - without saving
 set history=768        " Number of things to remember in history.
 set cf                 " Enable error files & error jumping.
-set clipboard+=unnamed " Yanks go on clipboard instead.
 set autowrite          " Writes on make/shell commands
 set timeoutlen=350     " Time to wait for a command (after leader for example)
 set foldlevelstart=99  " Remove folds
@@ -206,6 +184,13 @@ set complete=.,w,b,u,U
 " ----------------------------------------
 " Bindings
 " ----------------------------------------
+" Exit insert mode faster
+inoremap jw <Esc>
+
+" Insert a new line without going into insert mode
+noremap <S-Enter> O<Esc>
+noremap <Enter> o<Esc>
+
 " Fixes common typos
 command W w
 command Q q
@@ -219,19 +204,6 @@ vmap K k
 " Make line completion easier
 imap <C-l> <C-x><C-l>
 
-" Easier Scrolling (think j/k with left hand)
-" All variations are mapped for now until I get used to one
-" C/M/D + d (page up)
-" C/M/D + f (page down)
-nmap <C-d> <C-b>
-if has("gui_macvim")
-  nmap <D-f> <C-f>
-  nmap <D-d> <C-b>
-else
-  nmap <M-f> <C-f>
-  nmap <M-d> <C-b>
-endif
-
 " Use ; for : in normal and visual mode, less keystrokes
 nnoremap ; :
 vnoremap ; :
@@ -242,6 +214,11 @@ cnoremap %% <C-R>=expand('%:h').'/'<cr>
 " ---------------
 " Leader Commands
 " ---------------
+" Toggle invisible characters
+nnoremap <leader>i :set list!<CR>
+
+" Clear recent search highlighting
+nnoremap <leader><space> :noh<CR>
 
 " Toggle spelling mode with ,s
 nmap <silent> <leader>s :set spell!<CR>
@@ -331,19 +308,6 @@ function! s:on_insert_leave()
 endfunction
 
 " ---------------
-" Lusty Juggler
-" ---------------
-if has('unix')
-  " Allows for previous buffer on unix systems without most recent patch level
-  " that enable LustyJuggler to work
-  nnoremap <leader>, :e#<CR>
-else
-  nnoremap <leader>, :LustyJugglePrevious<CR>
-end
-let g:LustyJugglerShowKeys=1 " Show numbers for Lusty Buffers
-let g:LustyJugglerSuppressRubyWarning=1
-
-" ---------------
 " Syntastic
 " ---------------
 let g:syntastic_enable_signs=1
@@ -356,25 +320,9 @@ if has('win32') || has('win64')
 endif
 
 " ---------------
-" NERDTree
-" ---------------
-nnoremap <leader>nn :NERDTreeToggle<CR>
-nnoremap <leader>nf :NERDTreeFind<CR>
-let NERDTreeShowBookmarks=1
-let NERDTreeChDirMode=2 " Change the NERDTree directory to the root node
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
-" ---------------
 " Indent Guides
 " ---------------
 let g:indent_guides_enable_on_vim_startup=1
-
-" ---------------
-" Session
-" ---------------
-let g:session_autosave=0
-let g:session_autoload=0
-nnoremap <leader>os :OpenSession<CR>
 
 " ---------------
 " SpeedDating
@@ -408,12 +356,6 @@ nmap <Leader>gu :Git pull<CR>
 nmap <Leader>gd :Gdiff<CR>
 " Exit a diff by closing the diff window
 nmap <Leader>gx :wincmd h<CR>:q<CR>
-
-" ---------------
-" Zoomwin
-" ---------------
-" Zoom Window to Full Size
-nmap <silent> <leader>wo :ZoomWin<CR>
 
 " ---------------
 " Command T and ctrlp.vim
