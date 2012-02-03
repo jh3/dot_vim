@@ -40,6 +40,10 @@ Bundle 'ervandew/supertab'
 Bundle 'gregsexton/MatchTag'
 Bundle 'Shougo/neocomplcache'
 " Language Additions
+"   Java
+Bundle 'vim-scripts/java.vim'
+Bundle 'vim-scripts/groovy.vim'
+Bundle 'vim-scripts/grails-vim'
 "   JavaScript
 Bundle 'pangloss/vim-javascript'
 Bundle 'itspriddle/vim-jquery'
@@ -358,15 +362,15 @@ vmap <Leader>t> :Tabularize /=>\zs<CR>
 " ---------------
 " Fugitive
 " ---------------
-nmap <Leader>gc :Gcommit<CR>
-nmap <Leader>gw :Gwrite<CR>
-nmap <Leader>gs :Gstatus<CR>
-nmap <Leader>gp :Git push<CR>
+" nmap <Leader>gc :Gcommit<CR>
+" nmap <Leader>gw :Gwrite<CR>
+" nmap <Leader>gs :Gstatus<CR>
+" nmap <Leader>gp :Git push<CR>
  " Mnemonic, gu = Git Update
-nmap <Leader>gu :Git pull<CR>
-nmap <Leader>gd :Gdiff<CR>
+" nmap <Leader>gu :Git pull<CR>
+" nmap <Leader>gd :Gdiff<CR>
 " Exit a diff by closing the diff window
-nmap <Leader>gx :wincmd h<CR>:q<CR>
+" nmap <Leader>gx :wincmd h<CR>:q<CR>
 
 " ---------------
 " Command T and ctrlp.vim
