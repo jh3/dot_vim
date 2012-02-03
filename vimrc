@@ -18,15 +18,13 @@ Bundle 'gmarik/vundle'
 " Navigation
 Bundle 'wincent/Command-T'
 " This fork is required due to remapping ; to :
-Bundle 'christoomey/vim-space'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'kien/ctrlp.vim'
+Bundle 'vim-scripts/LustyJuggler'
 " UI Additions
 Bundle 'mutewinter/vim-indent-guides'
 Bundle 'Lokaltog/vim-powerline'
-Bundle 'Rykka/ColorV'
 Bundle 'nanotech/jellybeans.vim'
-Bundle 'tomtom/quickfixsigns_vim'
 " Commands
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-speeddating'
@@ -84,7 +82,7 @@ elseif has('gui_macvim')
 
   " Custom Menlo font for Powerline
   " From: https://github.com/Lokaltog/vim-powerline/wiki/Patched-fonts
-  set guifont=Menlo\ for\ Powerline:h12
+  set guifont=Menlo\ for\ Powerline:h13
 
   " Hide toolbar and scrollbar in MacVim
   if has("gui_running")
@@ -273,6 +271,19 @@ endif
 " time with)
 let g:SuperTabDefaultCompletionType="<c-x><c-n>"
 let g:SuperTabContextDefaultCompletionType="<c-x><c-n>"
+
+" ---------------
+" Lusty Juggler
+" ---------------
+if has('unix')
+  " Allows for previous buffer on unix systems without most recent patch level
+  " that enable LustyJuggler to work
+  nnoremap <leader>l :e#<CR>
+else
+  nnoremap <leader>l :LustyJugglePrevious<CR>
+end
+let g:LustyJugglerShowKeys=1 " Show numbers for Lusty Buffers
+let g:LustyJugglerSuppressRubyWarning=1
 
 " ---------------
 " Neocachecompl
