@@ -40,6 +40,10 @@ Bundle 'ervandew/supertab'
 Bundle 'gregsexton/MatchTag'
 Bundle 'Shougo/neocomplcache'
 " Language Additions
+"   Ruby
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'tpope/vim-rails'
+Bundle 'tpope/vim-rake'
 "   Java
 Bundle 'vim-scripts/java.vim'
 Bundle 'vim-scripts/groovy.vim'
@@ -47,8 +51,10 @@ Bundle 'vim-scripts/grails-vim'
 "   JavaScript
 Bundle 'pangloss/vim-javascript'
 Bundle 'itspriddle/vim-jquery'
+Bundle 'kchmck/vim-coffee-script'
 "   Misc
 Bundle 'mutewinter/nginx.vim'
+Bundle 'tpope/vim-haml'
 " MatchIt
 Bundle 'matchit.zip'
 Bundle 'kana/vim-textobj-user'
