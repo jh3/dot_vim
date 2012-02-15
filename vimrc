@@ -17,20 +17,14 @@ Bundle 'gmarik/vundle'
 
 " Navigation
 Bundle 'wincent/Command-T'
-" This fork is required due to remapping ; to :
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'kien/ctrlp.vim'
 Bundle 'vim-scripts/LustyJuggler'
 " UI Additions
-Bundle 'mutewinter/vim-indent-guides'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'nanotech/jellybeans.vim'
+Bundle 'wgibbs/vim-irblack'
 " Commands
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-speeddating'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-commentary'
-Bundle 'godlygeek/tabular'
 Bundle 'mileszs/ack.vim'
 Bundle 'gmarik/sudo-gui.vim'
 " Automatic Helpers
@@ -44,25 +38,8 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-rake'
-"   Java
-Bundle 'vim-scripts/java.vim'
-Bundle 'vim-scripts/groovy.vim'
-Bundle 'vim-scripts/grails-vim'
-"   JavaScript
-Bundle 'pangloss/vim-javascript'
-Bundle 'itspriddle/vim-jquery'
-Bundle 'kchmck/vim-coffee-script'
-"   Misc
-Bundle 'mutewinter/nginx.vim'
-Bundle 'tpope/vim-haml'
-" MatchIt
-Bundle 'matchit.zip'
-Bundle 'kana/vim-textobj-user'
-Bundle 'nelstrom/vim-textobj-rubyblock'
 " Libraries
-Bundle 'L9'
 Bundle 'tpope/vim-repeat'
-Bundle 'tomtom/tlib_vim'
 
 filetype plugin indent on  " Automatically detect file types. (must turn on after Vundle)
 
@@ -74,36 +51,19 @@ let mapleader=","
 " Platform Specific Configuration
 " ----------------------------------------
 
-if has('win32') || has('win64')
-  " Windows
-  source $VIMRUNTIME/mswin.vim
-  set guifont=Consolas:h10
-  set guioptions-=T " Toolbar
-  set guioptions-=m " Menubar
+" Custom Menlo font for Powerline
+" From: https://github.com/Lokaltog/vim-powerline/wiki/Patched-fonts
+set guifont=Menlo\ for\ Powerline:h13
 
-  " Set height and width on Windows
-  set lines=60
-  set columns=120
-
-  " Windows has a nasty habit of launching gVim in the wrong working directory
-  cd ~
-elseif has('gui_macvim')
-  " MacVim
-
-  " Custom Menlo font for Powerline
-  " From: https://github.com/Lokaltog/vim-powerline/wiki/Patched-fonts
-  set guifont=Menlo\ for\ Powerline:h13
-
-  " Hide toolbar and scrollbar in MacVim
-  if has("gui_running")
-    set guioptions=egmrt
-    set guioptions+=LlRrb
-    set guioptions-=LlRrb
-  endif
-
-  " Use option (alt) as meta key.
-  set macmeta
+" Hide toolbar and scrollbar in MacVim
+if has("gui_running")
+  set guioptions=egmrt
+  set guioptions+=LlRrb
+  set guioptions-=LlRrb
 endif
+
+" Use option (alt) as meta key.
+set macmeta
 
 " ----------------------------------------
 " Regular Vim Configuration (No Plugins Needed)
@@ -113,7 +73,7 @@ endif
 " Color
 " ---------------
 set background=dark
-colorscheme jellybeans
+colorscheme ir_black
 
 " ---------------
 " Backups
@@ -131,6 +91,7 @@ set nowrap  " Line wrapping off
 set laststatus=2  " Always show the statusline
 set cmdheight=2
 set encoding=utf-8
+set t_Co=256
 
 " ---------------
 " Behaviors
@@ -285,13 +246,7 @@ let g:SuperTabContextDefaultCompletionType="<c-x><c-n>"
 " ---------------
 " Lusty Juggler
 " ---------------
-if has('unix')
-  " Allows for previous buffer on unix systems without most recent patch level
-  " that enable LustyJuggler to work
-  nnoremap <leader>l :e#<CR>
-else
-  nnoremap <leader>l :LustyJugglePrevious<CR>
-end
+nnoremap <leader>l :LustyJugglePrevious<CR>
 let g:LustyJugglerShowKeys=1 " Show numbers for Lusty Buffers
 let g:LustyJugglerSuppressRubyWarning=1
 
@@ -341,31 +296,6 @@ if has('win32') || has('win64')
 endif
 
 " ---------------
-" Indent Guides
-" ---------------
-let g:indent_guides_enable_on_vim_startup=1
-
-" ---------------
-" SpeedDating
-" ---------------
-let g:speeddating_no_mappings=1 " Remove default mappings (C-a etc.)
-nmap <silent><leader>dm <Plug>SpeedDatingDown
-nmap <silent><leader>dp <Plug>SpeedDatingUp
-nmap <silent><leader>dn <Plug>SpeedDatingNowUTC
-
-" ---------------
-" Tabular
-" ---------------
-nmap <Leader>t= :Tabularize /=<CR>
-vmap <Leader>t= :Tabularize /=<CR>
-nmap <Leader>t: :Tabularize /:\zs<CR>
-vmap <Leader>t: :Tabularize /:\zs<CR>
-nmap <Leader>t, :Tabularize /,\zs<CR>
-vmap <Leader>t, :Tabularize /,\zs<CR>
-nmap <Leader>t> :Tabularize /=>\zs<CR>
-vmap <Leader>t> :Tabularize /=>\zs<CR>
-
-" ---------------
 " Fugitive
 " ---------------
 " nmap <Leader>gc :Gcommit<CR>
@@ -379,63 +309,15 @@ vmap <Leader>t> :Tabularize /=>\zs<CR>
 " nmap <Leader>gx :wincmd h<CR>:q<CR>
 
 " ---------------
-" Command T and ctrlp.vim
+" Command T
 " ---------------
-" Ensure Ctrl-P isn't bound by default
-let g:ctrlp_map = ''
-if has('ruby')
-  " We've got Ruby, use Command T
-
-  " Conditional Mappings
-  if has("gui_macvim")
-    nnoremap <silent><D-t> :CommandT<CR>
-  else
-    nnoremap <silent><M-t> :CommandT<CR>
-  endif
-
-  " Leader Commands
-  nnoremap <leader>t :CommandT<CR>
-  nnoremap <leader>u :CommandT %%<CR>
-else
-  " Fallback on ctrlp.vim if Ruby for Command T not available
-
-  " Conditional Mappings
-  if has("gui_macvim")
-    let g:ctrlp_map = '<D-t>'
-  else
-    let g:ctrlp_map = '<M-t>'
-  endif
-
-  " Leader Commands
-  nnoremap <leader>t :CtrlPRoot<CR>
-endif
-
 " Ensure max height isn't too large. (for performance)
-let g:ctrlp_max_height = 10
 let g:CommandTMaxHeight = 10
-
-" Mapping from ctrlp we always use
-if has('gui_macvim')
-  nnoremap <silent><D-u> :CtrlPCurFile<CR>
-  nnoremap <silent><D-y> :CtrlPMRUFiles<CR>
-else
-  nnoremap <silent><M-u> :CtrlPCurFile<CR>
-  nnoremap <silent><M-y> :CtrlPMRUFiles<CR>
-end
-
-" Also map leader commands
-nnoremap <leader>u :CtrlPCurFile<CR>
-nnoremap <leader>y :CtrlPMRUFiles<CR>
 
 " ---------------
 " Powerline
 " ---------------
-" Keep ^B from showing on Windows in Powerline
-if has('win32') || has('win64')
-  let g:Powerline_symbols = 'compatible'
-elseif has('gui_macvim')
-  let g:Powerline_symbols = 'fancy'
-endif
+let g:Powerline_symbols = 'fancy'
 
 " ---------------
 " Vundle
@@ -447,89 +329,6 @@ nmap <Leader>bc :BundleClean<CR>
 " ----------------------------------------
 " Functions
 " ----------------------------------------
-
-" ---------------
-" OpenURL
-" ---------------
-
-if has('ruby')
-ruby << EOF
-  require 'open-uri'
-  require 'openssl'
-  
-  def extract_url(url)
-    re = %r{(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]\{\};:'".,<>?«»“”‘’]))}
-
-    url.match(re).to_s
-  end
-
-  def open_url
-    line = VIM::Buffer.current.line
-
-    if url = extract_url(line)
-      if RUBY_PLATFORM.downcase =~ /(win|mingw)(32|64)/
-        `start cmd /c chrome #{url}`
-        VIM::message("Opened #{url}")
-      else
-        `open #{url}`
-        VIM::message("Opened #{url}")
-      end
-    else
-      VIM::message("No URL found on this line.")
-    end
-
-  end
-
-  # Returns the contents of the <title> tag of a given page
-  def fetch_title(url)
-    if RUBY_VERSION < '1.9'
-      open(url).read.match(/<title>(.*?)<\/title>?/i)[1]
-    else
-      open(url, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE).read.match(/<title>(.*?)<\/title>?/i)[1]
-    end
-  end
-
-  # Paste the title and url for the url on the clipboard in markdown format: [Title](url)
-  # Note: Clobbers p register
-  def paste_url_and_title
-    clipboard = VIM::evaluate('@+')
-    url = extract_url(clipboard)
-    if url and url.strip != ""
-      puts "Fetching title"
-      title = fetch_title(url)
-      VIM::command "let @p = '[#{title}](#{url})'"
-      VIM::command 'normal! "pp'
-    else
-      VIM::message("Clipboard does not contain URL: '#{clipboard[1..10]}'...")
-    end
-  end
-EOF
-
-" Open a URL
-if !exists("*OpenURL")
-  function! OpenURL()
-    :ruby open_url
-  endfunction
-endif
-
-command! OpenUrl call OpenURL()
-nnoremap <leader>o :call OpenURL()<CR>
-
-" ---------------
-" Paste link with Title
-" ---------------
-
-" Open a URL
-if !exists("*PasteURLTitle")
-  function! PasteURLTitle()
-    :ruby paste_url_and_title
-  endfunction
-endif
-
-command! PasteURLTitle call PasteURLTitle()
-map <leader>pt :PasteURLTitle<CR>
-
-endif " endif has('ruby')
 
 " ---------------
 " Fix Trailing White Space
