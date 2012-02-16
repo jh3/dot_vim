@@ -72,6 +72,7 @@ set macmeta
 " ---------------
 " Color
 " ---------------
+set t_Co=256
 set background=dark
 colorscheme ir_black
 
@@ -91,7 +92,6 @@ set nowrap  " Line wrapping off
 set laststatus=2  " Always show the statusline
 set cmdheight=2
 set encoding=utf-8
-set t_Co=256
 
 " ---------------
 " Behaviors
@@ -155,10 +155,6 @@ set complete=.,w,b,u,U
 " ----------------------------------------
 " Exit insert mode faster
 inoremap jw <Esc>
-
-" Insert a new line without going into insert mode
-noremap <S-Enter> O<Esc>
-noremap <Enter> o<Esc>
 
 " Fixes common typos
 command W w
