@@ -86,6 +86,7 @@ set directory=~/.vim/tmp
 " ---------------
 " UI
 " ---------------
+set showcmd
 set ruler  " Ruler on
 set nu  " Line numbers on
 set nowrap  " Line wrapping off
@@ -111,13 +112,13 @@ set formatoptions=crql
 " Text Format
 " ---------------
 set tabstop=2
+set softtabstop=2
 set backspace=2 " Delete everything with backspace
 set shiftwidth=2  " Tabs under smart indent
 set cindent
 set autoindent
 set smarttab
 set expandtab
-set backspace=2
 
 " ---------------
 " Searching
@@ -219,6 +220,9 @@ if has("autocmd")
 
   " No more complaining about untitled documents
   autocmd FocusLost silent! :wa
+
+  " Change indentation for perl files
+  autocmd FileType perl setl sw=4 ts=4 sts=4 et
 
   " When editing a file, always jump to the last cursor position.
   " This must be after the uncompress commands.
