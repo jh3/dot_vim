@@ -26,7 +26,6 @@ Bundle 'wgibbs/vim-irblack'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-commentary'
 Bundle 'mileszs/ack.vim'
-Bundle 'gmarik/sudo-gui.vim'
 " Automatic Helpers
 Bundle 'Raimondi/delimitMate'
 Bundle 'scrooloose/syntastic'
@@ -88,7 +87,7 @@ set directory=~/.vim/tmp
 " ---------------
 set showcmd
 set ruler  " Ruler on
-set nu  " Line numbers on
+set relativenumber  " Relative line numbers on
 set nowrap  " Line wrapping off
 set laststatus=2  " Always show the statusline
 set cmdheight=2
@@ -154,7 +153,13 @@ set complete=.,w,b,u,U
 " ----------------------------------------
 " Bindings
 " ----------------------------------------
-" Exit insert mode faster
+" Force saving files that require root
+cmap w!! %!sudo tee > /dev/null %
+
+" Fix crappy pasting of already formatted code
+imap <Leader>p <C-O>:set paste<CR><C-r>*<C-O>:set nopaste<CR>
+
+" Exit insert mode faster    
 inoremap jw <Esc>
 
 " Fixes common typos
@@ -181,15 +186,15 @@ cnoremap %% <C-R>=expand('%:h').'/'<cr>
 " Leader Commands
 " ---------------
 " Toggle invisible characters
-nnoremap <leader>i :set list!<CR>
+nnoremap <Leader>i :set list!<CR>
 
 " Clear recent search highlighting
-nnoremap <leader><space> :noh<CR>
+nnoremap <Leader><space> :noh<CR>
 
 " Toggle spelling mode with ,s
-nmap <silent> <leader>s :set spell!<CR>
+nmap <silent> <Leader>s :set spell!<CR>
 " Edit vimrc with ,v
-nmap <silent> <leader>v :e ~/.vim/vimrc<CR>
+nmap <silent> <Leader>v :e ~/.vim/vimrc<CR>
 
 " Window Movement
 nmap <silent> <C-h> :wincmd h<CR>
@@ -200,15 +205,15 @@ nmap <silent> <C-l> :wincmd l<CR>
 nmap <silent> <C-p> :wincmd p<CR>
 
 " Equal Size Windows
-nmap <silent> <leader>w= :wincmd =<CR>
+nmap <silent> <Leader>w= :wincmd =<CR>
 
 " Window Splitting
-nmap <silent> <leader>sh :split<CR>
-nmap <silent> <leader>sv :vsplit<CR>
+nmap <silent> <Leader>sh :split<CR>
+nmap <silent> <Leader>sv :vsplit<CR>
 " Because I'm dyslexic
-nmap <silent> <leader>hs :split<CR>
-nmap <silent> <leader>vs :vsplit<CR>
-nmap <silent> <leader>sc :close<CR>
+nmap <silent> <Leader>hs :split<CR>
+nmap <silent> <Leader>vs :vsplit<CR>
+nmap <silent> <Leader>sc :close<CR>
 
 " ----------------------------------------
 " Auto Commands
@@ -246,7 +251,7 @@ let g:SuperTabContextDefaultCompletionType="<c-x><c-n>"
 " ---------------
 " Lusty Juggler
 " ---------------
-nnoremap <leader>l :LustyJugglePrevious<CR>
+nnoremap <Leader>l :LustyJugglePrevious<CR>
 let g:LustyJugglerShowKeys=1 " Show numbers for Lusty Buffers
 let g:LustyJugglerSuppressRubyWarning=1
 
@@ -333,7 +338,7 @@ nmap <Leader>bc :BundleClean<CR>
 " ---------------
 " Fix Trailing White Space
 " ---------------
-map <leader>ws :%s/\s\+$//e<CR>
+map <Leader>ws :%s/\s\+$//e<CR>
 command! FixTrailingWhiteSpace :%s/\s\+$//e
 
 " ---------------
@@ -351,4 +356,4 @@ function! QuickSpellingFix()
 endfunction
 
 command! QuickSpellingFix call QuickSpellingFix()
-nmap <silent> <leader>z :QuickSpellingFix<CR>
+nmap <silent> <Leader>z :QuickSpellingFix<CR>
