@@ -2,8 +2,8 @@
 " Vundle
 " ----------------------------------------
 
-set nocompatible " be iMproved
-filetype off     " required!
+set nocompatible
+filetype off
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -11,32 +11,21 @@ call vundle#rc()
 " let Vundle manage Vundle, required
 Bundle 'gmarik/vundle'
 
-" ---------------
-" Plugin Bundles
-" ---------------
-
 " Navigation
 Bundle 'wincent/Command-T'
 Bundle 'vim-scripts/LustyJuggler'
 " UI Additions
 Bundle 'Lokaltog/vim-powerline'
-Bundle 'nanotech/jellybeans.vim'
 Bundle 'wgibbs/vim-irblack'
 " Commands
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-commentary'
-Bundle 'mileszs/ack.vim'
 " Automatic Helpers
 Bundle 'Raimondi/delimitMate'
 Bundle 'scrooloose/syntastic'
 Bundle 'ervandew/supertab'
 Bundle 'gregsexton/MatchTag'
 Bundle 'Shougo/neocomplcache'
-" Language Additions
-"   Ruby
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'tpope/vim-rails'
-Bundle 'tpope/vim-rake'
 " Libraries
 Bundle 'tpope/vim-repeat'
 
@@ -293,12 +282,6 @@ endfunction
 " ---------------
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
-
-" Platform-specific config files
-if has('win32') || has('win64')
-  let g:syntastic_jsl_conf=$HOME.'/.vim/config/windows/syntastic/jsl.conf'
-  let g:syntastic_disabled_filetypes=['sh'] " Disable .sh on Windows
-endif
 
 " ---------------
 " Fugitive
