@@ -26,8 +26,10 @@ Bundle 'scrooloose/syntastic'
 Bundle 'ervandew/supertab'
 Bundle 'gregsexton/MatchTag'
 Bundle 'Shougo/neocomplcache'
+Bundle 'chrisbra/SudoEdit.vim'
 " Libraries
 Bundle 'tpope/vim-repeat'
+Bundle "ludovicPelle/vim-xdebug"
 
 filetype plugin indent on  " Automatically detect file types. (must turn on after Vundle)
 
@@ -48,10 +50,9 @@ if has("gui_running")
   set guioptions=egmrt
   set guioptions+=LlRrb
   set guioptions-=LlRrb
+  " Use option (alt) as meta key.
+  set macmeta
 endif
-
-" Use option (alt) as meta key.
-set macmeta
 
 " ----------------------------------------
 " Regular Vim Configuration (No Plugins Needed)
