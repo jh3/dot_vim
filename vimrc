@@ -1,7 +1,6 @@
 " ----------------------------------------
 " Vundle
 " ----------------------------------------
-
 set nocompatible
 filetype off
 
@@ -12,11 +11,10 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " Navigation
-Bundle 'wincent/Command-T'
-Bundle 'vim-scripts/LustyJuggler'
+Bundle 'kien/ctrlp.vim'
 " UI Additions
-Bundle 'Lokaltog/vim-powerline'
 Bundle 'wgibbs/vim-irblack'
+Bundle 'altercation/vim-colors-solarized'
 " Commands
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-commentary'
@@ -27,9 +25,6 @@ Bundle 'ervandew/supertab'
 Bundle 'gregsexton/MatchTag'
 Bundle 'Shougo/neocomplcache'
 Bundle 'chrisbra/SudoEdit.vim'
-" Libraries
-Bundle 'tpope/vim-repeat'
-Bundle "ludovicPelle/vim-xdebug"
 
 filetype plugin indent on  " Automatically detect file types. (must turn on after Vundle)
 
@@ -38,32 +33,27 @@ filetype plugin indent on  " Automatically detect file types. (must turn on afte
 let mapleader=","
 
 " ----------------------------------------
-" Platform Specific Configuration
-" ----------------------------------------
-
-" Custom Menlo font for Powerline
-" From: https://github.com/Lokaltog/vim-powerline/wiki/Patched-fonts
-set guifont=Menlo\ for\ Powerline:h13
-
-" Hide toolbar and scrollbar in MacVim
-if has("gui_running")
-  set guioptions=egmrt
-  set guioptions+=LlRrb
-  set guioptions-=LlRrb
-  " Use option (alt) as meta key.
-  set macmeta
-endif
-
-" ----------------------------------------
 " Regular Vim Configuration (No Plugins Needed)
 " ----------------------------------------
-
 " ---------------
 " Color
 " ---------------
 set t_Co=256
 set background=dark
-colorscheme ir_black
+
+if has("gui_running")
+  " From: https://github.com/Lokaltog/vim-powerline/wiki/Patched-fonts
+  set guifont=Inconsolata-dz\ for\ Powerline:h12
+  " Hide toolbar and scrollbar in MacVim
+  set guioptions=egmrt
+  set guioptions+=LlRrb
+  set guioptions-=LlRrb
+  " Use option (alt) as meta key.
+  set macmeta
+  colorscheme solarized
+else
+  colorscheme ir_black
+endif
 
 " ---------------
 " Backups
@@ -76,17 +66,28 @@ set directory=~/.vim/tmp
 " UI
 " ---------------
 set showcmd
-set ruler  " Ruler on
+set ruler           " Ruler on
 set relativenumber  " Relative line numbers on
-set nowrap  " Line wrapping off
-set laststatus=2  " Always show the statusline
-set cmdheight=2
+set nowrap          " Line wrapping off
+set laststatus=2    " Always show the statusline
 set encoding=utf-8
+
+set statusline=
+set statusline+=[%n%H%M%R%W]\  " flags and buf no
+set statusline+=[%{strlen(&fenc)?&fenc:'none'}, " file encoding
+set statusline+=%{&ff}] " file format
+set statusline+=%y\     " filetype
+set statusline+=%t      " tail of filename
+set statusline+=%=      " left/right separator
+set statusline+=%c,     " cursor column
+set statusline+=%l/%L\  " cursor line/total lines
+set statusline+=%P    " percent through file
 
 " ---------------
 " Behaviors
 " ---------------
 syntax enable
+set clipboard=unnamed
 set autoread           " Automatically reload changes if detected
 set wildmenu           " Turn on WiLd menu
 set hidden             " Change buffer - without saving
@@ -102,7 +103,7 @@ set formatoptions=crql
 " ---------------
 set tabstop=2
 set softtabstop=2
-set backspace=2 " Delete everything with backspace
+set backspace=2   " Delete everything with backspace
 set shiftwidth=2  " Tabs under smart indent
 set cindent
 set autoindent
@@ -112,16 +113,16 @@ set expandtab
 " ---------------
 " Searching
 " ---------------
-set ignorecase " Case insensitive search
-set smartcase " Non-case sensitive search
+set ignorecase  " Case insensitive search
+set smartcase   " Non-case sensitive search
 set incsearch
 set hlsearch
-set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc,.svn,.hg,.bzr,.git,.sass-cache
+set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc
 
 " ---------------
 " Visual
 " ---------------
-set showmatch  " Show matching brackets.
+set showmatch   " Show matching brackets.
 set matchtime=2 " How many tenths of a second to blink
 
 " ---------------
@@ -134,8 +135,8 @@ set t_vb=
 " ---------------
 " Mouse
 " ---------------
-set mousehide  " Hide mouse after chars typed
-set mouse=a  " Mouse in all modes
+set mousehide   " Hide mouse after chars typed
+set mouse=a     " Mouse in all modes
 
 " Better complete options to speed it up
 set complete=.,w,b,u,U
@@ -143,9 +144,6 @@ set complete=.,w,b,u,U
 " ----------------------------------------
 " Bindings
 " ----------------------------------------
-" Force saving files that require root
-cmap w!! %!sudo tee > /dev/null %
-
 " Fix crappy pasting of already formatted code
 imap <Leader>p <C-O>:set paste<CR><C-r>*<C-O>:set nopaste<CR>
 
@@ -183,8 +181,6 @@ nnoremap <Leader><space> :noh<CR>
 
 " Toggle spelling mode with ,s
 nmap <silent> <Leader>s :set spell!<CR>
-" Edit vimrc with ,v
-nmap <silent> <Leader>v :e ~/.vim/vimrc<CR>
 
 " Window Movement
 nmap <silent> <C-h> :wincmd h<CR>
@@ -219,6 +215,11 @@ if has("autocmd")
   " Change indentation for perl files
   autocmd FileType perl setl sw=4 ts=4 sts=4 et
 
+  " Help make nice commit messages
+  autocmd FileType gitcommit highlight OverLength ctermbg=darkgrey guibg=#592929
+  autocmd FileType gitcommit match OverLength /\%72v.*/
+  autocmd FileType gitcommit setl tw=72 fo=cq wm=0
+
   " When editing a file, always jump to the last cursor position.
   " This must be after the uncompress commands.
   autocmd BufReadPost *
@@ -237,13 +238,6 @@ endif
 " time with)
 let g:SuperTabDefaultCompletionType="<c-x><c-n>"
 let g:SuperTabContextDefaultCompletionType="<c-x><c-n>"
-
-" ---------------
-" Lusty Juggler
-" ---------------
-nnoremap <Leader>l :LustyJugglePrevious<CR>
-let g:LustyJugglerShowKeys=1 " Show numbers for Lusty Buffers
-let g:LustyJugglerSuppressRubyWarning=1
 
 " ---------------
 " Neocachecompl
@@ -287,26 +281,32 @@ let g:syntastic_auto_loc_list=1
 " ---------------
 " Fugitive
 " ---------------
+nmap <Leader>gb :Gblame<CR>
+nmap <Leader>gd :Gdiff<CR>
+" Exit a diff by closing the diff window
+nmap <Leader>gx :wincmd h<CR>:q<CR>
 " nmap <Leader>gc :Gcommit<CR>
 " nmap <Leader>gw :Gwrite<CR>
 " nmap <Leader>gs :Gstatus<CR>
 " nmap <Leader>gp :Git push<CR>
  " Mnemonic, gu = Git Update
 " nmap <Leader>gu :Git pull<CR>
-" nmap <Leader>gd :Gdiff<CR>
-" Exit a diff by closing the diff window
-" nmap <Leader>gx :wincmd h<CR>:q<CR>
 
 " ---------------
-" Command T
+" CtrlP
 " ---------------
-" Ensure max height isn't too large. (for performance)
-let g:CommandTMaxHeight = 10
-
-" ---------------
-" Powerline
-" ---------------
-let g:Powerline_symbols = 'fancy'
+" Set the working path to the parent dir of the current file
+let g:ctrlp_working_path_mode = 1
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+  \ 'file': '\.exe$\|\.so$\|\.dll$',
+  \ }
+let g:ctrlp_user_command = {
+  \ 'types': {
+    \ 1: ['.git/', 'cd %s && git ls-files'],
+    \ },
+  \ 'fallback': 'find %s -type f'
+  \ }
 
 " ---------------
 " Vundle
