@@ -14,10 +14,14 @@ Bundle 'gmarik/vundle'
 Bundle 'kien/ctrlp.vim'
 " UI Additions
 Bundle 'wgibbs/vim-irblack'
-Bundle 'altercation/vim-colors-solarized'
+Bundle 'vim-scripts/Wombat'
+Bundle 'vim-scripts/Mustang2'
+Bundle 'tomasr/molokai'
 " Commands
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-commentary'
+" Libraries
+Bundle 'benjifisher/Vim-Plugin-for-Drupal'
 " Automatic Helpers
 Bundle 'Raimondi/delimitMate'
 Bundle 'scrooloose/syntastic'
@@ -43,14 +47,16 @@ set background=dark
 
 if has("gui_running")
   " From: https://github.com/Lokaltog/vim-powerline/wiki/Patched-fonts
-  set guifont=Inconsolata-dz\ for\ Powerline:h12
+  " set guifont=Inconsolata-dz\ for\ Powerline:h12
+  set guifont=Inconsolata:h14
   " Hide toolbar and scrollbar in MacVim
   set guioptions=egmrt
   set guioptions+=LlRrb
   set guioptions-=LlRrb
   " Use option (alt) as meta key.
   set macmeta
-  colorscheme solarized
+  colorscheme molokai
+  let g:molokai_original = 1
 else
   colorscheme ir_black
 endif
@@ -68,7 +74,6 @@ set directory=~/.vim/tmp
 set showcmd
 set ruler           " Ruler on
 set relativenumber  " Relative line numbers on
-set nowrap          " Line wrapping off
 set laststatus=2    " Always show the statusline
 set encoding=utf-8
 
@@ -109,6 +114,8 @@ set cindent
 set autoindent
 set smarttab
 set expandtab
+set linebreak
+set wrap
 
 " ---------------
 " Searching
@@ -206,6 +213,9 @@ nmap <silent> <Leader>sc :close<CR>
 " ----------------------------------------
 
 if has("autocmd")
+  " cd to the current directory of the open buffer
+  autocmd BufRead,BufNewFile * lcd %:p:h
+
   " No formatting on o key newlines
   autocmd BufNewFile,BufEnter * set formatoptions-=o
 
@@ -219,6 +229,9 @@ if has("autocmd")
   autocmd FileType gitcommit highlight OverLength ctermbg=darkgrey guibg=#592929
   autocmd FileType gitcommit match OverLength /\%72v.*/
   autocmd FileType gitcommit setl tw=72 fo=cq wm=0
+
+  " This is for commentary
+  autocmd FileType php set commentstring=//\ %s
 
   " When editing a file, always jump to the last cursor position.
   " This must be after the uncompress commands.
@@ -277,6 +290,10 @@ endfunction
 " ---------------
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
+" let g:syntastic_mode_map = { 'mode': 'active',
+"       \ 'active_filetypes': ['install', 'module', 'inc', 'info', 'php'],
+"       \ 'passive_filetypes': ['perl', 'bash', 'sh'] }
+let g:syntastic_phpcs_disable=1
 
 " ---------------
 " Fugitive
