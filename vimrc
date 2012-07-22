@@ -14,8 +14,6 @@ Bundle 'gmarik/vundle'
 Bundle 'kien/ctrlp.vim'
 " UI Additions
 Bundle 'wgibbs/vim-irblack'
-Bundle 'vim-scripts/Wombat'
-Bundle 'vim-scripts/Mustang2'
 Bundle 'tomasr/molokai'
 " Commands
 Bundle 'tpope/vim-fugitive'
@@ -32,16 +30,7 @@ Bundle 'chrisbra/SudoEdit.vim'
 
 filetype plugin indent on  " Automatically detect file types. (must turn on after Vundle)
 
-" Set leader to ,
-" Note: This line MUST come before any <leader> mappings
 let mapleader=","
-
-" ----------------------------------------
-" Regular Vim Configuration (No Plugins Needed)
-" ----------------------------------------
-" ---------------
-" Color
-" ---------------
 set t_Co=256
 set background=dark
 
@@ -61,16 +50,10 @@ else
   colorscheme ir_black
 endif
 
-" ---------------
-" Backups
-" ---------------
 set backup
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
 
-" ---------------
-" UI
-" ---------------
 set showcmd
 set ruler           " Ruler on
 set relativenumber  " Relative line numbers on
@@ -86,11 +69,8 @@ set statusline+=%t      " tail of filename
 set statusline+=%=      " left/right separator
 set statusline+=%c,     " cursor column
 set statusline+=%l/%L\  " cursor line/total lines
-set statusline+=%P    " percent through file
+set statusline+=%P      " percent through file
 
-" ---------------
-" Behaviors
-" ---------------
 syntax enable
 set clipboard=unnamed
 set autoread           " Automatically reload changes if detected
@@ -103,9 +83,6 @@ set timeoutlen=350     " Time to wait for a command (after leader for example)
 set foldlevelstart=99  " Remove folds
 set formatoptions=crql
 
-" ---------------
-" Text Format
-" ---------------
 set tabstop=2
 set softtabstop=2
 set backspace=2   " Delete everything with backspace
@@ -117,47 +94,32 @@ set expandtab
 set linebreak
 set wrap
 
-" ---------------
-" Searching
-" ---------------
 set ignorecase  " Case insensitive search
 set smartcase   " Non-case sensitive search
 set incsearch
 set hlsearch
 set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc
 
-" ---------------
-" Visual
-" ---------------
 set showmatch   " Show matching brackets.
 set matchtime=2 " How many tenths of a second to blink
 
-" ---------------
-" Sounds
-" ---------------
 set noerrorbells
 set novisualbell
 set t_vb=
 
-" ---------------
-" Mouse
-" ---------------
 set mousehide   " Hide mouse after chars typed
 set mouse=a     " Mouse in all modes
 
 " Better complete options to speed it up
 set complete=.,w,b,u,U
 
-" ----------------------------------------
-" Bindings
-" ----------------------------------------
 " Fix crappy pasting of already formatted code
 imap <Leader>p <C-O>:set paste<CR><C-r>*<C-O>:set nopaste<CR>
 
 " Exit insert mode faster    
 inoremap jw <Esc>
 
-" Fixes common typos
+" Common typos
 command W w
 command Q q
 map <F1> <Esc>
@@ -173,13 +135,10 @@ imap <C-l> <C-x><C-l>
 " Use ; for : in normal and visual mode, less keystrokes
 nnoremap ; :
 vnoremap ; :
-" double percentage sign in command mode is expanded
+" Double percentage sign in command mode is expanded
 " to directory of current file - http://vimcasts.org/e/14
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 
-" ---------------
-" Leader Commands
-" ---------------
 " Toggle invisible characters
 nnoremap <Leader>i :set list!<CR>
 
@@ -196,10 +155,8 @@ nmap <silent> <C-k> :wincmd k<CR>
 nmap <silent> <C-l> :wincmd l<CR>
 " Previous Window
 nmap <silent> <C-p> :wincmd p<CR>
-
 " Equal Size Windows
 nmap <silent> <Leader>w= :wincmd =<CR>
-
 " Window Splitting
 nmap <silent> <Leader>sh :split<CR>
 nmap <silent> <Leader>sv :vsplit<CR>
@@ -207,10 +164,6 @@ nmap <silent> <Leader>sv :vsplit<CR>
 nmap <silent> <Leader>hs :split<CR>
 nmap <silent> <Leader>vs :vsplit<CR>
 nmap <silent> <Leader>sc :close<CR>
-
-" ----------------------------------------
-" Auto Commands
-" ----------------------------------------
 
 if has("autocmd")
   " cd to the current directory of the open buffer
@@ -240,31 +193,24 @@ if has("autocmd")
         \   exe "normal! g`\"" |
         \ endif
 endif
-" ----------------------------------------
-" Plugin Configuration
-" ----------------------------------------
 
-" ---------------
+" Plugin Configurations
+" ---------------------
 " SuperTab
-" ---------------
 " Set these up for cross-buffer completion (something Neocachecompl has a hard
 " time with)
 let g:SuperTabDefaultCompletionType="<c-x><c-n>"
 let g:SuperTabContextDefaultCompletionType="<c-x><c-n>"
 
-" ---------------
 " Neocachecompl
-" ---------------
 let g:neocomplcache_enable_at_startup=1
 let g:neocomplcache_enable_auto_select=1 "Select the first entry automatically
 let g:neocomplcache_enable_cursor_hold_i=1
 let g:neocomplcache_cursor_hold_i_time=300
 let g:neocomplcache_auto_completion_start_length=1
-
 " Tab / Shift-Tab to cycle completions
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
-
 " Required to make neocomplcache_cursor_hold_i_time work
 " See https://github.com/Shougo/neocomplcache/issues/140
 let s:update_time_save = &updatetime
@@ -285,9 +231,7 @@ function! s:on_insert_leave()
   endif
 endfunction
 
-" ---------------
 " Syntastic
-" ---------------
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
 " let g:syntastic_mode_map = { 'mode': 'active',
@@ -295,25 +239,15 @@ let g:syntastic_auto_loc_list=1
 "       \ 'passive_filetypes': ['perl', 'bash', 'sh'] }
 let g:syntastic_phpcs_disable=1
 
-" ---------------
 " Fugitive
-" ---------------
 nmap <Leader>gb :Gblame<CR>
 nmap <Leader>gd :Gdiff<CR>
-" Exit a diff by closing the diff window
-nmap <Leader>gx :wincmd h<CR>:q<CR>
-" nmap <Leader>gc :Gcommit<CR>
-" nmap <Leader>gw :Gwrite<CR>
-" nmap <Leader>gs :Gstatus<CR>
-" nmap <Leader>gp :Git push<CR>
- " Mnemonic, gu = Git Update
-" nmap <Leader>gu :Git pull<CR>
+nmap <Leader>gx :wincmd h<CR>:q<CR> " Exit a diff by closing the diff window
+nmap <Leader>gc :Gcommit<CR>
+nmap <Leader>gs :Gstatus<CR>
 
-" ---------------
 " CtrlP
-" ---------------
-" Set the working path to the parent dir of the current file
-let g:ctrlp_working_path_mode = 1
+let g:ctrlp_working_path_mode = 1 " Set the working path to the parent dir of the current file
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\.git$\|\.hg$\|\.svn$',
   \ 'file': '\.exe$\|\.so$\|\.dll$',
@@ -325,26 +259,18 @@ let g:ctrlp_user_command = {
   \ 'fallback': 'find %s -type f'
   \ }
 
-" ---------------
 " Vundle
-" ---------------
 nmap <Leader>bi :BundleInstall<CR>
-nmap <Leader>bu :BundleInstall!<CR> " Because this also updates
+nmap <Leader>bu :BundleInstall!<CR>
 nmap <Leader>bc :BundleClean<CR>
 
-" ----------------------------------------
 " Functions
-" ----------------------------------------
-
-" ---------------
+" ---------
 " Fix Trailing White Space
-" ---------------
 map <Leader>ws :%s/\s\+$//e<CR>
 command! FixTrailingWhiteSpace :%s/\s\+$//e
 
-" ---------------
 " Quick spelling fix (first item in z= list)
-" ---------------
 function! QuickSpellingFix()
   if &spell
     normal 1z=
