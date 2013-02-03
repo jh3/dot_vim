@@ -26,6 +26,7 @@ Bundle 'scrooloose/syntastic'
 Bundle 'ervandew/supertab'
 Bundle 'gregsexton/MatchTag'
 Bundle 'chrisbra/SudoEdit.vim'
+Bundle 'msanders/snipmate.vim'
 
 filetype plugin indent on  " Automatically detect file types. (must turn on after Vundle)
 
@@ -35,7 +36,6 @@ set background=dark
 
 if has("gui_running")
   " From: https://github.com/Lokaltog/vim-powerline/wiki/Patched-fonts
-  " set guifont=Inconsolata-dz\ for\ Powerline:h12
   set guifont=Inconsolata:h14
   " Hide toolbar and scrollbar in MacVim
   set guioptions=egmrt
@@ -73,7 +73,7 @@ set statusline+=%P      " percent through file
 syntax enable
 set clipboard=unnamed
 set autoread           " Automatically reload changes if detected
-set wildmenu           " Turn on WiLd menu
+set wildmenu           " Turn on Wild menu
 set hidden             " Change buffer - without saving
 set history=768        " Number of things to remember in history.
 set cf                 " Enable error files & error jumping.
@@ -167,7 +167,7 @@ nmap <silent> <Leader>sc :close<CR>
 
 if has("autocmd")
   " cd to the current directory of the open buffer
-  autocmd BufRead,BufNewFile * lcd %:p:h
+  " autocmd BufRead,BufNewFile * lcd %:p:h
 
   " No formatting on o key newlines
   autocmd BufNewFile,BufEnter * set formatoptions-=o
