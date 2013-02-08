@@ -25,8 +25,8 @@ Bundle 'Raimondi/delimitMate'
 Bundle 'scrooloose/syntastic'
 Bundle 'ervandew/supertab'
 Bundle 'gregsexton/MatchTag'
-Bundle 'Shougo/neocomplcache'
 Bundle 'chrisbra/SudoEdit.vim'
+Bundle 'msanders/snipmate.vim'
 
 filetype plugin indent on  " Automatically detect file types. (must turn on after Vundle)
 
@@ -36,7 +36,6 @@ set background=dark
 
 if has("gui_running")
   " From: https://github.com/Lokaltog/vim-powerline/wiki/Patched-fonts
-  " set guifont=Inconsolata-dz\ for\ Powerline:h12
   set guifont=Inconsolata:h14
   " Hide toolbar and scrollbar in MacVim
   set guioptions=egmrt
@@ -74,7 +73,7 @@ set statusline+=%P      " percent through file
 syntax enable
 set clipboard=unnamed
 set autoread           " Automatically reload changes if detected
-set wildmenu           " Turn on WiLd menu
+set wildmenu           " Turn on Wild menu
 set hidden             " Change buffer - without saving
 set history=768        " Number of things to remember in history.
 set cf                 " Enable error files & error jumping.
@@ -112,6 +111,7 @@ set mouse=a     " Mouse in all modes
 
 " Better complete options to speed it up
 set complete=.,w,b,u,U
+set completeopt=longest,menu
 
 " Fix crappy pasting of already formatted code
 imap <Leader>p <C-O>:set paste<CR><C-r>*<C-O>:set nopaste<CR>
@@ -167,7 +167,7 @@ nmap <silent> <Leader>sc :close<CR>
 
 if has("autocmd")
   " cd to the current directory of the open buffer
-  autocmd BufRead,BufNewFile * lcd %:p:h
+  " autocmd BufRead,BufNewFile * lcd %:p:h
 
   " No formatting on o key newlines
   autocmd BufNewFile,BufEnter * set formatoptions-=o
@@ -201,35 +201,6 @@ endif
 " time with)
 let g:SuperTabDefaultCompletionType="<c-x><c-n>"
 let g:SuperTabContextDefaultCompletionType="<c-x><c-n>"
-
-" Neocachecompl
-let g:neocomplcache_enable_at_startup=1
-let g:neocomplcache_enable_auto_select=1 "Select the first entry automatically
-let g:neocomplcache_enable_cursor_hold_i=1
-let g:neocomplcache_cursor_hold_i_time=300
-let g:neocomplcache_auto_completion_start_length=1
-" Tab / Shift-Tab to cycle completions
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
-" Required to make neocomplcache_cursor_hold_i_time work
-" See https://github.com/Shougo/neocomplcache/issues/140
-let s:update_time_save = &updatetime
-autocmd InsertEnter * call s:on_insert_enter()
-
-function! s:on_insert_enter()
-  if &updatetime > g:neocomplcache_cursor_hold_i_time
-    let s:update_time_save = &updatetime
-    let &updatetime = g:neocomplcache_cursor_hold_i_time
-  endif
-endfunction
-
-autocmd InsertLeave * call s:on_insert_leave()
-
-function! s:on_insert_leave()
-  if &updatetime < s:update_time_save
-    let &updatetime = s:update_time_save
-  endif
-endfunction
 
 " Syntastic
 let g:syntastic_enable_signs=1
